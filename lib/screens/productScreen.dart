@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import '../datas/productData.dart';
+import '../screens/Login.dart';
+import '../models/cartModel.dart';
+import '../models/userModel.dart';
+import '../datas/cartProduct.dart';
+import '../screens/cartScreen.dart';
 
 class ProductScreen extends StatefulWidget {
   final ProductData product;
@@ -49,9 +54,27 @@ class _ProductScreenState extends State<ProductScreen> {
                     SizedBox(
                       height: 44.0,
                       child: RaisedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (Usermodel.of(context).isLoggedIn()) {
+                            CartProduct cartProduct = CartProduct();
+                            cartProduct.quantity = 1;
+                            cartProduct.pid = product.id;
+                            cartProduct.category = product.category;
+                            cartProduct.productData = product;
+
+                            Cartmodel.of(context).addCartItem(cartProduct);
+
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => CartScreen()));
+                          } else {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Login()));
+                          }
+                        },
                         child: Text(
-                          'adicionar ao carrinho',
+                          Usermodel.of(context).isLoggedIn()
+                              ? "Adicionar ao Carrinho"
+                              : "Entre para Comprar",
                           style: TextStyle(fontSize: 18.0),
                         ),
                         color: Color.fromARGB(255, 4, 125, 141),
