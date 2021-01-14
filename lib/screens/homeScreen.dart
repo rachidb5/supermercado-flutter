@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../tabs/productTab.dart';
 import '../widgets/menuLateral.dart';
 import '../widgets/cartButton.dart';
+import '../tabs/ordersTab.dart';
 
 class HomeScreen extends StatelessWidget {
   final _pageController = PageController();
@@ -22,7 +23,14 @@ class HomeScreen extends StatelessWidget {
           floatingActionButton: CartButton(),
         ),
         Container(color: Colors.yellow),
-        Container(color: Colors.red),
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Meus Pedidos"),
+            centerTitle: true,
+          ),
+          body: OrdersTab(),
+          drawer: MenuLateral(_pageController),
+        )
       ],
     );
   }
